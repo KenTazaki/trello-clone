@@ -3,28 +3,28 @@ import {CONSTANTS} from '../actions';
 const initialState = [
   {
     title: '前回のあらすじ',
-    id: 0,
+    id: `list-${0}`,
     cards: [
       {
-        id: 0,
+        id: `card-${0}`,
         text: 'reducerしようぜ',
       },
       {
-        id: 1,
+        id: `card-${1}`,
         text: 'マテリアルUI使おうぜ',
       },
     ],
   },
   {
     title: '今回の話',
-    id: 1,
+    id: `list-${1}`,
     cards: [
       {
-        id: 0,
+        id: `card-${2}`,
         text: '色々やろうぜ',
       },
       {
-        id: 1,
+        id: `card-${3}`,
         text: 'どんどんやろうぜ',
       },
     ],
@@ -34,7 +34,7 @@ const initialState = [
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CONSTANTS.ADD_LIST:
-      const listID = state.length;
+      const listID = `list-${state.length}`;
       const newList = {
         title: action.payload,
         cards: [],
@@ -42,8 +42,7 @@ const listsReducer = (state = initialState, action) => {
       };
       return [...state, newList];
     case CONSTANTS.ADD_CARD:
-      const cardID = state.find (list => list.id === action.payload.listID)
-        .cards.length;
+      const cardID = `card=${state.reduce ((total, elm) => total + elm.cards.length, 0)}`;
       const newCard = {
         text: action.payload.text,
         id: cardID,
