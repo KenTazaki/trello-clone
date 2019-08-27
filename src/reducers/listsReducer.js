@@ -41,7 +41,7 @@ const listsReducer = (state = initialState, action) => {
         id: listID,
       };
       return [...state, newList];
-    case CONSTANTS.ADD_CARD:
+    case CONSTANTS.ADD_CARD: {
       const cardID = `card=${state.reduce ((total, elm) => total + elm.cards.length, 0)}`;
       const newCard = {
         text: action.payload.text,
@@ -59,6 +59,26 @@ const listsReducer = (state = initialState, action) => {
         }
       });
       return newState;
+    }
+    case CONSTANTS.DRAG_HAPPENED:
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexStart,
+        droppableIndexEnd,
+        draggableId,
+      } = action.payload;
+      const newState = [...state];
+
+      // in the same list
+      if (droppableIdStart === droppableIdEnd) {
+        const list = state.find (list => droppableIdStart === list.id);
+        const card = list.cards.splice (droppableIndexStart, 1);
+        list.cards.splice (droppableIndexEnd, 0, ...card);
+      }
+
+      return newState;
+
     default:
       return state;
   }
