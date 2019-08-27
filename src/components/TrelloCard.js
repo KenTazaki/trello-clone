@@ -31,9 +31,4 @@ const TrelloCard = ({text, id, index}) => {
   );
 };
 
-const style = {
-  cardContailer: {
-    marginBottom: 8,
-  },
-};
 export default TrelloCard;
